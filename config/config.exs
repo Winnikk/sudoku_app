@@ -47,6 +47,27 @@ config :logger, :console,
 # Use Jason for JSON parsing in Phoenix
 config :phoenix, :json_library, Jason
 
-# Import environment specific config. This must remain at the bottom
-# of this file so it overrides the configuration defined above.
+config :sudoku_app, :pow,
+  user: SudokuApp.Users.User,
+  repo: SudokuApp.Repo,
+  web_module: SudokuAppWeb,
+  extensions: [PowResetPassword],
+  controller_callback: Pow.Extension.Phoenix.ControllerCallbacks,
+  mailer_backend: SudokuAppWeb.PowMailer
+
+config :sudoku_app, :pow_assent,
+  providers: [
+    github: [
+      client_id: Application.get_env(:github_client, :id),
+      client_secret: Application.get_env(:github_client, :secret),
+      strategy: Assent.Strategy.Github
+    ],
+    google: [
+      client_id: Application.get_env(:google_client, :id),
+      client_secret: Application.get_env(:google_client, :secret),
+      strategy: Assent.Strategy.Google
+    ]
+  ]
+
+import_config "#{Mix.env}.secret.exs"
 import_config "#{config_env()}.exs"

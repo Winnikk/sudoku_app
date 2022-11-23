@@ -101,6 +101,15 @@ defmodule SudokuAppWeb do
     end
   end
 
+  def mailer_view do
+    quote do
+      use Phoenix.View, root: "lib/sudoku_app_web/templates",
+                        namespace: SudokuAppWeb
+
+      use Phoenix.HTML
+    end
+  end
+
   @doc """
   When used, dispatch to the appropriate controller/view/etc.
   """
